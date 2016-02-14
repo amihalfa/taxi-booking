@@ -33,6 +33,11 @@
         <property name="typeName" value="Basic" />
     </bean>
 
+    <bean id="oauth2AuthenticationEntryPoint"
+          class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+        <property name="realmName" value="taxi-booking" />
+    </bean>
+
     <sec:authentication-manager id="clientAuthenticationManager">
         <sec:authentication-provider user-service-ref="clientDetailsUserService"/>
     </sec:authentication-manager>
@@ -68,7 +73,7 @@
                       secret="azerty"
                        authorized-grant-types="password,authorization_code,refresh_token,implicit"
                        scope="read,write,trust" resource-ids="oauth2-resource"
-                       access-token-validity="6000" authorities="ROLE_TRUSTED_CLIENT" />
+                       access-token-validity="6000" authorities="ROLE_PASSWORD_CLIENT" />
         <oauth:client client-id="trustedclient" authorized-grant-types="client_credentials,refresh-token,implicit"
                       secret="clientsecret" access-token-validity="6000"
                       resource-ids="oauth2-resource"
@@ -77,10 +82,9 @@
 
 
 
-    <sec:http pattern="/**" create-session="never"
-          entry-point-ref="clientAuthenticationEntryPoint">
+    <sec:http pattern="/**" create-session="stateless"
+          entry-point-ref="oauth2AuthenticationEntryPoint">
         <sec:anonymous enabled="false" />
-        <sec:intercept-url pattern="/**" access="ROLE_TRUSTED_CLIENT"  />
         <sec:custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
     </sec:http>
 
