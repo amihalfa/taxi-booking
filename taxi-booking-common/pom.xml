@@ -10,8 +10,7 @@
     <artifactId>taxi-booking-common</artifactId>
     <packaging>jar</packaging>
 
-    <name>taxi-booking-common</name>
-    <url>http://maven.apache.org</url>
+    <name>Taxi Booking Common</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
